@@ -29,3 +29,7 @@ spec:
             - containerPort: 8080
               name: http
           resources: {{- toYaml .Values.backend.resources | nindent 12 }}
+          command: ["/bin/bash"]
+          args:
+            - "-c"
+            - "npm start"
