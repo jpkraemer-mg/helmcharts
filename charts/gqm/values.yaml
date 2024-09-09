@@ -17,7 +17,7 @@ frontend:
   ingress:
     enabled: true
     host: ""
-    existingCertificate:
+    existingCertificate: ""
   resources: {}
 postgresql:
   global:
