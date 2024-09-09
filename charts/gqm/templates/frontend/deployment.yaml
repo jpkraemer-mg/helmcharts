@@ -21,14 +21,14 @@ spec:
           env:
             - name: BACKEND_URL
               value: "http://{{ include "common.names.fullname" . }}-backend.{{ .Release.Namespace }}.svc.cluster.local/"
-            {{- range $k, $v := .Values.backend.extraEnv }}
+            {{- range $k, $v := .Values.frontend.extraEnv }}
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
           ports:
             - containerPort: 8080
               name: http
-          resources: {{- toYaml .Values.backend.resources | nindent 12 }}
+          resources: {{- toYaml .Values.frontend.resources | nindent 12 }}
           command: ["/bin/bash"]
           args:
             - "-c"
