@@ -1,4 +1,4 @@
-{{- if .Values.backend.ingress.enabled -}}
+{{- if .Values.frontend.ingress.enabled -}}
 apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
 kind: Ingress
 metadata:

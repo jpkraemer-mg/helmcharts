@@ -18,6 +18,7 @@ frontend:
     enabled: true
     host: ""
     existingCertificate: ""
+  extraEnv:
   resources: {}
 postgresql:
   global:
