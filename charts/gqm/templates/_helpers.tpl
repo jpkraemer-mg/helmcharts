@@ -5,5 +5,5 @@
 {{- end -}}
 
 {{- define "frontend.image" -}}
-{{ include "common.images.image" (dict "imageRoot" .Values.backend.image "global" .Values.global) }}
+{{ include "common.images.image" (dict "imageRoot" .Values.frontend.image "global" .Values.global) }}
 {{- end -}}
