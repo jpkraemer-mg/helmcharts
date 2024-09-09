@@ -26,7 +26,7 @@ spec:
               value: {{ $v | quote }}
             {{- end }}
           ports:
-            - containerPort: 8080
+            - containerPort: 4200
               name: http
           resources: {{- toYaml .Values.frontend.resources | nindent 12 }}
           command: ["/bin/bash"]
