@@ -1,7 +1,7 @@
 apiVersion: v2
 description: HelmChart to deploy Goal Question Metrics System
 name: gqm-system
-version: 0.2.0
+version: 0.3.0
 home: "https://gqm.darkoro.org/"
 maintainers:
   - name: jpkraemer-mg

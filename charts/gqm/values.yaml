@@ -44,7 +44,7 @@ postgresql:
     enabled: false
   metrics:
     enabled: true
-    resourcesPreset: "micro"
+    resourcesPreset: "small"
     serviceMonitor:
       enabled: true
     prometheusRule:
