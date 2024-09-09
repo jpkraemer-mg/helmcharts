@@ -2,6 +2,26 @@ apiVersion: v1
 entries:
   gqm-system:
   - apiVersion: v2
+    created: "2024-09-09T16:48:47.590948431Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.19.3
+    - alias: postgresql
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.28
+    description: HelmChart to deploy Goal Question Metrics System
+    digest: 488ce9f9486d8f51af148d71b00e64b7d8bd00a293bf5b2cb871ee6adf0c348e
+    home: https://gqm.darkoro.org/
+    maintainers:
+    - email: j.kraemer@4allportal.com
+      name: jpkraemer-mg
+    name: gqm-system
+    urls:
+    - https://github.com/jpkraemer-mg/helmcharts/releases/download/gqm-system-0.4.8/gqm-system-0.4.8.tgz
+    version: 0.4.8
+  - apiVersion: v2
     created: "2024-09-09T16:42:30.389694738Z"
     dependencies:
     - name: common
@@ -181,4 +201,4 @@ entries:
     urls:
     - https://github.com/jpkraemer-mg/helmcharts/releases/download/gqm-system-0.3.0/gqm-system-0.3.0.tgz
     version: 0.3.0
-generated: "2024-09-09T16:42:30.389717521Z"
+generated: "2024-09-09T16:48:47.590991201Z"
