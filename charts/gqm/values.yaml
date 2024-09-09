@@ -1,0 +1,51 @@
+backend:
+  image:
+    registry: docker.io
+    repository: darkoro/gqm-backend
+    tag: 0.25.0
+  extraEnv:
+  ingress:
+    enabled: false
+    host: ""
+    existingCertificate: ""
+  resources: {}
+frontend:
+  image:
+    registry: docker.io
+    repository: darkoro/gqm-frontend
+    tag: 0.25.0
+  ingress:
+    enabled: true
+    host: ""
+    existingCertificate:
+  resources: {}
+postgresql:
+  global:
+    defaultStorageClass: ceph-rbd
+  auth:
+    postgresPassword: mysecretpassword
+    username: admin
+    password: mysecretpassword
+    database: gqm
+  primary:
+    startupProbe:
+      enabled: true
+    resourcesPreset: "small"
+    updateStrategy:
+      type: RollingUpdate
+    persistence:
+      size: 10Gi
+  readReplicas:
+    replicaCount: 0
+  volumePermissions:
+    enabled: true
+    resourcesPreset: "micro"
+  serviceBindings:
+    enabled: false
+  metrics:
+    enabled: true
+    resourcesPreset: "micro"
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
