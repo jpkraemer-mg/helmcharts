@@ -1,7 +1,7 @@
 apiVersion: v2
 description: HelmChart to deploy the Leaderboard Bot
 name: leaderboard
-version: 0.0.3
+version: 0.0.4
 maintainers:
   - name: jpkraemer-mg
     email: j.kraemer@4allportal.com
