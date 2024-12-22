@@ -31,33 +31,41 @@ jobs:
         run: |
           sudo snap install yq
 
-      - name: update chart lock
-        id: helm_deps
+      - name: detect changes
+        id: detect-changes
         run: |
-          for DIR in ./charts/*; do
-            CHANGED=$(git diff --name-only HEAD^ HEAD -- "$DIR")
-            if [[ -z "$CHANGED" ]]; then
-              continue
-            fi
+          CHANGED=$(git diff --name-only HEAD^ HEAD -- charts/*/Chart.yaml | xargs -n 1 dirname | sort -u)
+          if [[ -z "$CHANGED" ]]; then
+            echo "No changes"
+            echo "changes=" >> $GITHUB_ENV
+          else
+            echo "Changes: $CHANGED"
+            echo "changes=$CHANGED" >> $GITHUB_ENV
+          fi
+
+      - name: update chart dependencies
+        if: env.changes
+        run: |
+          for DIR in $changes; do
             helm dependency update $DIR
           done
 
       - name: extract and add helm repos
-        id: helm-repos
+        if: env.changes
         run: |
-          for DIR in ./charts/*; do
-            CHANGED=$(git diff --name-only HEAD^ HEAD -- "$DIR")
-            if [[ -z "$CHANGED" ]]; then
-              continue
-            fi
+          for DIR in $changes; do
             FILE="$DIR/Chart.yaml"
-            DIR="${DIR//\./}"
-            yq e '.dependencies.[].repository' "$FILE"
-          done | sort -u | awk '{print NR " " $1}' | xargs -r -n 2 helm repo add
+            REPOS=$(yq e '.dependencies.[].repository' "$FILE" | sort -u)
+            for REPO in $REPOS; do
+              helm repo add $(basename $REPO) $REPO
+            done
+          done
 
       - name: release
+        if: env.changes
         uses: helm/chart-releaser-action@v1.6.0
         with:
           charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GH_TOKEN }}"
+          SKIP_EXISTING: true
