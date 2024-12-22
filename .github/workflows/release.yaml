@@ -35,6 +35,10 @@ jobs:
         id: helm_deps
         run: |
           for DIR in ./charts/*; do
+            CHANGED=$(git diff --name-only HEAD^ HEAD -- "$DIR")
+            if [[ -z "$CHANGED" ]]; then
+              continue
+            fi
             helm dependency update $DIR
           done
 
