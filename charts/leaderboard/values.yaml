@@ -6,8 +6,8 @@ bot:
     existingCertificate: {}
   image:
     registry: docker.io
-    repository: darkoro/gqm-backend
-    tag: 0.25.0
+    repository: darkoro/leaderboard-bot
+    tag: 0.0.1
   token: ""
   service:
     port: 8080

@@ -42,6 +42,10 @@ jobs:
         id: helm-repos
         run: |
           for DIR in ./charts/*; do
+            CHANGED=$(git diff --name-only HEAD^ HEAD -- "$DIR")
+            if [[ -z "$CHANGED" ]]; then
+              continue
+            fi
             FILE="$DIR/Chart.yaml"
             DIR="${DIR//\./}"
             yq e '.dependencies.[].repository' "$FILE"
