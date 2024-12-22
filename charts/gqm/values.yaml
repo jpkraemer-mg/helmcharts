@@ -27,7 +27,7 @@ postgresql:
   global:
     defaultStorageClass: ceph-rbd
   auth:
-    postgresPassword: mysecretpassword
+    postgresPassword: mysecretpasswords
     username: admin
     password: mysecretpassword
     database: gqm
