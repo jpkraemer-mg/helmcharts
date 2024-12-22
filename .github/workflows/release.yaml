@@ -53,4 +53,4 @@ jobs:
           charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GH_TOKEN }}"
-          SKIP_EXISTING: true
+          CR_SKIP_EXISTING: true
