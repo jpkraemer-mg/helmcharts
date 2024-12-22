@@ -31,16 +31,20 @@ jobs:
         run: |
           sudo snap install yq
 
+      - name: update chart lock
+        id: helm_deps
+        run: |
+          for DIR in ./charts/*; do
+            helm dependency update $DIR
+          done
+
       - name: extract and add helm repos
         id: helm-repos
         run: |
           for DIR in ./charts/*; do
-            helm dependency update "$DIR"
             FILE="$DIR/Chart.yaml"
-            DIR="${DIR/\./}"
-            if [[ -f "$FILE" ]]; then
-              yq e '.dependencies.[].repository' "$FILE" | sort -u | grep -E '^(http|https|oci)://' || echo "No valid repositories in $FILE"
-            fi
+            DIR="${DIR//\./}"
+            yq e '.dependencies.[].repository' "$FILE"
           done | sort -u | awk '{print NR " " $1}' | xargs -r -n 2 helm repo add
 
       - name: release
