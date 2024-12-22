@@ -307,6 +307,21 @@ entries:
     version: 0.3.0
   leaderboard:
   - apiVersion: v2
+    created: "2024-12-22T22:01:18.322022901Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.19.3
+    description: HelmChart to deploy the Leaderboard Bot
+    digest: 99880260742316dec2fc80f03a5e46e32686db5b4bd02fbe2f353c544420106e
+    maintainers:
+    - email: j.kraemer@4allportal.com
+      name: jpkraemer-mg
+    name: leaderboard
+    urls:
+    - https://github.com/jpkraemer-mg/helmcharts/releases/download/leaderboard-0.0.7/leaderboard-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
     created: "2024-12-22T21:58:09.6858885Z"
     dependencies:
     - name: common
@@ -381,4 +396,4 @@ entries:
     urls:
     - https://github.com/jpkraemer-mg/helmcharts/releases/download/leaderboard-0.0.1/leaderboard-0.0.1.tgz
     version: 0.0.1
-generated: "2024-12-22T21:58:09.685959673Z"
+generated: "2024-12-22T22:01:18.322083454Z"
