@@ -21,20 +21,20 @@ spec:
           command: ['sh', '-c', 'until nc -z -v -w30 {{ include "common.names.fullname" . }}-mysql 3306; do echo "Waiting for MySQL..."; sleep 5; done']
       containers:
         - name: backend
-          image: {{ include "bot.image" . }}
+          image: "{{ include "bot.image" . }}"
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_DATASOURCE_USERNAME
-              value: {{ required "Set a username at .Values.mysql.leaderboard.user" .Values.mysql.leaderboard.user }}
+              value: "{{ required "Set a username at .Values.mysql.leaderboard.user" .Values.mysql.leaderboard.user }}"
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: dbPass
                   name: {{ include "common.names.fullname" . }}-mysql-data
             - name: SPRING_DATASOURCE_URL
-              value: {{ include "bot.datasource.url" . }}
+              value: "{{ include "bot.datasource.url" . }}"
             - name: SERVER_PORT
-              value: {{ .Values.bot.service.port }}
+              value: "{{ .Values.bot.service.port }}"
             - name: QUEST_DARKORO_TOKEN
               valueFrom:
                 secretKeyRef:
