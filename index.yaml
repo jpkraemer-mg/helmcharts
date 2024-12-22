@@ -2,6 +2,27 @@ apiVersion: v1
 entries:
   gqm-system:
   - apiVersion: v2
+    created: "2024-12-22T21:22:27.483136739Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.19.3
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.28
+    description: HelmChart to deploy Goal Question Metrics System
+    digest: 48555c366eb649d11a88265e0a1ca6b5827e1613c36ec71998ad36b35c8a449a
+    home: https://gqm.darkoro.org/
+    maintainers:
+    - email: j.kraemer@4allportal.com
+      name: jpkraemer-mg
+    name: gqm-system
+    urls:
+    - https://github.com/jpkraemer-mg/helmcharts/releases/download/gqm-system-0.5.2/gqm-system-0.5.2.tgz
+    version: 0.5.2
+  - apiVersion: v2
     created: "2024-12-22T17:44:17.742878625Z"
     dependencies:
     - name: common
@@ -263,4 +284,20 @@ entries:
     urls:
     - https://github.com/jpkraemer-mg/helmcharts/releases/download/gqm-system-0.3.0/gqm-system-0.3.0.tgz
     version: 0.3.0
-generated: "2024-12-22T17:44:17.742947323Z"
+  leaderboard:
+  - apiVersion: v2
+    created: "2024-12-22T21:22:27.561564799Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.19.3
+    description: HelmChart to deploy the Leaderboard Bot
+    digest: 6262371699622a34c5b0652624ae1860368896b5d196e066ba95f4a39754af8c
+    maintainers:
+    - email: j.kraemer@4allportal.com
+      name: jpkraemer-mg
+    name: leaderboard
+    urls:
+    - https://github.com/jpkraemer-mg/helmcharts/releases/download/leaderboard-0.0.1/leaderboard-0.0.1.tgz
+    version: 0.0.1
+generated: "2024-12-22T21:22:27.561655639Z"
