@@ -1,0 +1,22 @@
+{{- if and .Values.bot.enabled .Values.bot.ingress.enabled -}}
+apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
+kind: Ingress
+metadata:
+  name: {{ include "common.names.fullname" . }}-bot
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "common.labels.standard" $ | nindent 4 }}
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+    - host: {{ required "You must provide a host when enabling ingress" .Values.bot.ingress.host | quote }}
+      http:
+        paths:
+          - path: /
+            backend: {{- include "common.ingress.backend" (dict "serviceName" (printf "%s-bot" (include "common.names.fullname" .)) "servicePort" "http" "context" $) | nindent 14 }}
+            pathType: Prefix
+  tls:
+    - hosts:
+        - {{ required "You must provide a host when enabling ingress" .Values.bot.ingress.host | quote }}
+      secretName: {{ include "common.secrets.name" (dict "existingSecret" .Values.bot.ingress.existingCertificate "defaultNameSuffix" "custom-certificate" "context" $) }}
+{{- end -}}

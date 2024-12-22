@@ -1,0 +1,51 @@
+{{- if .Values.bot.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "common.names.fullname" . }}-bot"
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "common.labels.standard" $ | nindent 4 }}
+    app.kubernetes.io/component: backend
+spec:
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: backend
+  template:
+    metadata:
+      labels: {{- include "common.labels.stable" $ | nindent 8 }}
+        app.kubernetes.io/component: backend
+    spec:
+      initContainers:
+        - name: mysql-ready-checker
+          image: busybox
+          command: ['sh', '-c', 'until nc -z -v -w30 {{ include "common.names.fullname" . }}-mysql 3306; do echo "Waiting for MySQL..."; sleep 5; done']
+      containers:
+        - name: backend
+          image: {{ include "bot.image" . }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ required "Set a username at .Values.mysql.leaderboard.user" .Values.mysql.leaderboard.user }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: dbPass
+                  name: {{ include "common.names.fullname" . }}-mysql-data
+            - name: SPRING_DATASOURCE_URL
+              value: {{ include "bot.datasource.url" . }}
+            - name: SERVER_PORT
+              value: {{ .Values.bot.service.port }}
+            - name: QUEST_DARKORO_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: botToken
+                  name: {{ include "common.names.fullname" . }}-bot-data
+            {{- range $k, $v := .Values.bot.extraEnv }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          ports:
+            - containerPort: {{ .Values.bot.service.port }}
+              name: http
+          resources: {{- toYaml .Values.bot.resources | nindent 12 }}
+{{- end -}}

@@ -1,0 +1,45 @@
+{{- if .Values.mysql.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "common.names.fullname" . }}-mysql"
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "common.labels.standard" $ | nindent 4 }}
+    app.kubernetes.io/component: mysql
+spec:
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: mysql
+  template:
+    metadata:
+      labels: {{- include "common.labels.stable" $ | nindent 8 }}
+        app.kubernetes.io/component: mysql
+    spec:
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: {{ include "common.names.fullname" . }}-mysql-data
+      containers:
+        - name: mysql
+          image: {{ include "mysql.image" . }}
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-data
+          env:
+            - name: MYSQL_USER
+              value: {{ required "Set a username at .Values.mysql.leaderboard.user" .Values.mysql.leaderboard.user }}
+            - name: MYSQL_ROOT_PASSWORD
+              value: {{ randAlphaNum 16 }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: dbPass
+                  name: {{ include "common.names.fullname" . }}-mysql-data
+            - name: MYSQL_DATABASE
+              value: {{ required "Set a database at .Values.mysql.leaderboard.database" .Values.mysql.leaderboard.database }}
+          ports:
+            - containerPort: {{ .Values.mysql.service.port }}
+              name: mysql
+          resources: {{- toYaml .Values.mysql.resources | nindent 12 }}
+{{- end -}}

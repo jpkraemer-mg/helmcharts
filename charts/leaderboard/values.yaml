@@ -1,0 +1,28 @@
+bot:
+  enabled: false
+  ingress:
+    enabled: false
+    host: ""
+    existingCertificate: {}
+  image:
+    registry: docker.io
+    repository: darkoro/gqm-backend
+    tag: 0.25.0
+  token: ""
+  service:
+    port: 8080
+  extraEnv: []
+  resources: {}
+mysql:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: mysql
+    tag: 8
+  leaderboard:
+    user: ""
+    password: ""
+    database: ""
+  service:
+    port: 3306
+  resources: {}
