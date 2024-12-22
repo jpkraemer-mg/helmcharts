@@ -35,6 +35,7 @@ jobs:
         id: helm-repos
         run: |
           for DIR in ./charts/*; do
+            helm dependency update "$DIR"
             FILE="$DIR/Chart.yaml"
             DIR="${DIR//\./}"
             yq e '.dependencies.[].repository' "$FILE"
