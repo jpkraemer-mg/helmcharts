@@ -1,4 +1,4 @@
-{{- if .Values.backend.ingress.enabled -}}
+{{- if and .Values.backend.enabled .Values.backend.ingress.enabled -}}
 apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
@@ -19,4 +19,4 @@ spec:
     - hosts:
         - {{ required "You must provide a host, when enabling ingress" .Values.backend.ingress.host | quote }}
       secretName: {{ include "common.secrets.name" (dict "existingSecret" .Values.backend.ingress.existingCertificate "defaultNameSuffix" "custom-certificate" "context" $) }}
-{{- end }}
+{{- end -}}

@@ -1,4 +1,4 @@
----
+{{- if .Values.backend.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,3 +13,4 @@ spec:
     - port: 80
       name: http
       targetPort: http
+{{- end -}}
